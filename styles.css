@@ -1,0 +1,43 @@
+
+.card-container{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+.card{
+
+}
+
+.author{
+
+}
+
+.title{
+
+}
+
+.numPages{
+
+}
+
+
+.read,
+.not-read{
+    color: white;
+}
+
+.read{
+    background-color: green;
+}
+
+.not-read{
+    background-color: red;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 400px;
+}

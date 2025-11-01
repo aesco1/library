@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+     <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="card-container" id="card-container"></div>
+    <button id="new-book-btn">New Button</button>
+
+    <div id="modal" class="modal hidden">
+        <div>
+            <span class="close">&times;</span>
+            <form action="" id="book-form">
+                <label for="title">Text</label>
+                <input type="text" id="title" placeholder="Title">
+
+                <label for="author">Author</label>
+                <input type="text" id="author" placeholder="Author">
+
+                <label for="page-num">Number of Pages</label>
+                <input type="text" id="page-num" placeholder="Page #">
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="read">
+                    <label for="read">Read</label>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>
