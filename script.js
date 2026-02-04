@@ -1,30 +1,37 @@
-const myLibrary = [];
 
-//constructor
-function Book(author, title, numPages, read) {
-  this.author = author;
-  this.title = title;
-  this.numPages = numPages;
-  this.read = read;
-  this.id = Date.now() + Math.random();
+
+class Library{
+    #catalog = []
+
+    get catalog(){
+        return this.#catalog
+    }
+
+    addBookToLibrary(author, title, numPages, read){
+        const newBook = new Book(author, title, numPages, read)
+        this.#catalog.push(newBook);
+    }
 }
 
-//create book and add to library
-function addBookToLibrary(author, title, numPages, read) {
-  book = new Book(author, title, numPages, read);
-  myLibrary.push(book);
+
+class Book{
+    constructor(author, title, numPages, read){
+        this.author = author;
+        this.title = title;
+        this.numPages = numPages;
+        this.read = read;
+        this.id = Date.now() + Math.random();
+    }
 }
 
-addBookToLibrary("Steve", "Stevens Journey", 40000, true);
-addBookToLibrary("Steve", "Stevens Journey II", 40000, false);
+class displayController{
 
+    constructor(library){
+        this.library = library;
+    }
 
-function displayBooks(){
-    //Clear container everytime for new additions
-    cardContainer = document.getElementById("card-container");
-    cardContainer.innerHTML = '';
-
-    for (const book of myLibrary){
+    addCard(){
+        const cardContainer = getElementById('.card-container');
 
         const card = document.createElement("div");
         card.classList.add("card");
@@ -41,7 +48,7 @@ function displayBooks(){
                 myLibrary.splice(index, 1);
                 console.log('After splice:', myLibrary);
             }
-            displayBooks();
+            this.displayBooks();
         });
 
         const title = document.createElement("h1");
@@ -60,8 +67,7 @@ function displayBooks(){
         const read = document.createElement("div");
             if(book.read === false){
                 read.classList.add("not-read");
-            }
-            else{
+            }else{
                 read.classList.add("read");
             }
 
@@ -82,6 +88,49 @@ function displayBooks(){
         card.appendChild(read);
 
         cardContainer.appendChild(card);
+
+    }
+
+    displayBooks(){
+
+         //Clear container everytime for new additions
+        cardContainer = document.getElementById("card-container");
+        cardContainer.innerHTML = '';
+
+        let currentCatalog = this.library.catalog
+        currentCatalog.forEach(book => {
+            this.addCard(book)
+        })
+    }
+
+    // init for event listeners
+
+    //displayBooks
+    render(){
+
+    }
+}
+
+
+const myLibrary = [];
+
+
+
+//create book and add to library
+function addBookToLibrary(author, title, numPages, read) {
+  book = new Book(author, title, numPages, read);
+  myLibrary.push(book);
+}
+
+addBookToLibrary("Steve", "Stevens Journey", 40000, true);
+addBookToLibrary("Steve", "Stevens Journey II", 40000, false);
+
+
+function displayBooks(){
+    //Clear container everytime for new additions
+    cardContainer = document.getElementById("card-container");
+    cardContainer.innerHTML = '';
+     
     }
 }
 
