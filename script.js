@@ -11,6 +11,8 @@ class Library{
         const newBook = new Book(author, title, numPages, read)
         this.#catalog.push(newBook);
     }
+
+    //removeBook()
 }
 
 
@@ -24,14 +26,15 @@ class Book{
     }
 }
 
-class displayController{
+class DisplayController{
 
     constructor(library){
         this.library = library;
+        this.initListeners();
     }
 
-    addCard(){
-        const cardContainer = getElementById('.card-container');
+    addCard(book){
+        const cardContainer = document.getElementById('card-container');
 
         const card = document.createElement("div");
         card.classList.add("card");
@@ -43,9 +46,9 @@ class displayController{
 
         bookX.addEventListener('click', () => {
             const bookId = Number(card.dataset.bookId);
-            const index = myLibrary.findIndex(book => book.id === bookId);
+            const index = this.library.catalog.findIndex(book => book.id === bookId);
             if (index !== -1) {
-                myLibrary.splice(index, 1);
+                this.library.catalog.splice(index, 1);
                 console.log('After splice:', myLibrary);
             }
             this.displayBooks();
@@ -73,11 +76,11 @@ class displayController{
 
         read.addEventListener('click', () => {
             const bookId = Number(card.dataset.bookId);
-            const index = myLibrary.findIndex(book => book.id === bookId);
+            const index = this.library.catalog.findIndex(book => book.id === bookId);
             if (index !== -1) {
-                myLibrary[index].read = !(myLibrary[index].read);
+                this.library.catalog[index].read = !(this.library.catalog[index].read);
             }
-            displayBooks();
+            this.displayBooks();
         });
 
 
@@ -92,79 +95,60 @@ class displayController{
     }
 
     displayBooks(){
-
          //Clear container everytime for new additions
-        cardContainer = document.getElementById("card-container");
+        const cardContainer = document.getElementById("card-container");
         cardContainer.innerHTML = '';
 
         let currentCatalog = this.library.catalog
         currentCatalog.forEach(book => {
-            this.addCard(book)
+            this.addCard(book);
         })
     }
 
     // init for event listeners
+    initListeners(){
+        
+        //Modal listeners
+        const modal = document.getElementById('modal');
+        const openBtn = document.getElementById('openModal');
+        const closeBtn = document.getElementById('closeModal');
+        const modalX = document.getElementById('modalX');
+        const form = document.getElementById('book-form');
 
-    //displayBooks
-    render(){
+        // Open modal
+        openBtn.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+        });
 
+        // Close modal
+        closeBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        //modal x
+        modalX.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const author = document.getElementById('author').value;
+            const title = document.getElementById('title').value;
+            const numPages = document.getElementById('page-num').value;
+            const read = document.getElementById('read').checked;
+
+            this.library.addBookToLibrary(author, title, numPages, read);
+            this.displayBooks();
+        });
     }
+
 }
 
-
-const myLibrary = [];
-
-
-
-//create book and add to library
-function addBookToLibrary(author, title, numPages, read) {
-  book = new Book(author, title, numPages, read);
-  myLibrary.push(book);
-}
-
-addBookToLibrary("Steve", "Stevens Journey", 40000, true);
-addBookToLibrary("Steve", "Stevens Journey II", 40000, false);
+const myLibrary = new Library();
+const display = new DisplayController(myLibrary);
 
 
-function displayBooks(){
-    //Clear container everytime for new additions
-    cardContainer = document.getElementById("card-container");
-    cardContainer.innerHTML = '';
-     
-    }
-}
 
-const modal = document.getElementById('modal');
-const openBtn = document.getElementById('openModal');
-const closeBtn = document.getElementById('closeModal');
-const modalX = document.getElementById('modalX');
-const form = document.getElementById('book-form');
 
-// Open modal
-openBtn.addEventListener('click', () => {
-  modal.classList.remove('hidden');
-});
 
-// Close modal
-closeBtn.addEventListener('click', () => {
-  modal.classList.add('hidden');
-});
-
-//modal x
-modalX.addEventListener('click', () => {
-    modal.classList.add('hidden');
-});
-
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const author = document.getElementById('title').value;
-    const title = document.getElementById('author').value;
-    const numPages = document.getElementById('page-num').value;
-    const read = document.getElementById('read').checked;
-
-    addBookToLibrary(author, title, numPages, read);
-    displayBooks();
-});
-
-displayBooks();
