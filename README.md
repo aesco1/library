@@ -12,3 +12,6 @@ Practice project focusing on:
 - JavaScript objects
 - Modal UI components
 - Frontend-only functionality
+
+## Live Demo
+[View Live Demo](https://aesco1.github.io/library/)
